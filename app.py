@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"  # Tu webhook aquí
+WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/..."  # Tu webhook aquí
 
 def get_client_ip():
     if "X-Forwarded-For" in request.headers:
@@ -13,18 +13,17 @@ def get_client_ip():
 
 def ip_usa_vpn(ip):
     try:
-        res = requests.get(f"http://ip-api.com/json/{ip}?fields=proxy")
-        data = res.json()
-        return data.get("proxy", False)
-    except Exception:
-        return False  # Si falla la API, no bloquea
+        r = requests.get(f"http://ip-api.com/json/{ip}?fields=proxy")
+        return r.json().get("proxy", False)
+    except:
+        return False
 
 @app.route("/", methods=["GET", "POST"])
 def form():
     ip = get_client_ip()
 
     if ip_usa_vpn(ip):
-        return "❌ No está permitido usar VPN o Proxy para enviar este formulario. Por favor, desactívalo e inténtalo nuevamente."
+        return render_template("blocked.html"), 403
 
     if request.method == "POST":
         respuestas = {
