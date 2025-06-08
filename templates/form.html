@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px 15px; }
+    </style>
+</head>
+<body>
+    <h2>Formulario de ingreso</h2>
+    <form method="post">
+        <label>Discord User*:
+            <input type="text" name="discord_user" required>
+        </label>
+        <label>País*:
+            <input type="text" name="pais" required>
+        </label>
+        <label>¿Qué sabes hacer?*:
+            <textarea name="skills" required></textarea>
+        </label>
+        <label>Horas disponibles y a qué hora?*:
+            <input type="text" name="horas" required>
+        </label>
+        <label>Días disponibles*:
+            <input type="text" name="dias" required>
+        </label>
+        <label>Edad (opcional):
+            <input type="text" name="edad">
+        </label>
+        <label>¿Tienes hacks? (opcional):
+            <input type="text" name="hacks">
+        </label>
+        <label>¿En qué vas a aportar?*:
+            <textarea name="aportar" required></textarea>
+        </label>
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
