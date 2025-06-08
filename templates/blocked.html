@@ -2,83 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>VPN no permitido</title>
+  <title>Acceso Bloqueado</title>
   <style>
-    body { 
-      font-family: Arial, sans-serif; 
-      background: #2c2c44; 
-      color: #f0f0f0;
-      display: flex; 
-      flex-direction: column; 
+    body {
+      background: #2c2c44;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
       align-items: center;
-      justify-content: center; 
-      height: 100vh; 
-      margin: 0; 
+      height: 100vh;
+      margin: 0;
+      text-align: center;
     }
-    .warning-container {
+    .block-message {
       background: #d9534f;
-      padding: 2rem;
+      padding: 30px;
       border-radius: 10px;
       max-width: 500px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
-    h1 { 
-      color: #fff; 
+    h1 {
       margin-top: 0;
     }
-    p { 
-      font-size: 1.2em; 
-      margin-bottom: 1.5rem;
-    }
-    .try-again {
-      display: inline-block;
-      background: #61dafb;
-      color: #000;
-      padding: 10px 20px;
-      border-radius: 5px;
+    a {
+      color: #61dafb;
       text-decoration: none;
       font-weight: bold;
-      transition: background 0.3s;
-    }
-    .try-again:hover {
-      background: #21a1f1;
-      text-decoration: none;
     }
   </style>
-  <script>
-    // Evitar que el usuario regrese con el botón del navegador
-    history.pushState(null, null, location.href);
-    window.onpopstate = function() {
-      history.go(1);
-    };
-    
-    // Verificar periódicamente si se ha desactivado la VPN
-    function checkVPNStatus() {
-      fetch('/check-vpn', {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      })
-      .then(response => {
-        if(response.ok) {
-          window.location.href = '/';
-        }
-      });
-    }
-    
-    // Verificar cada 5 segundos
-    setInterval(checkVPNStatus, 5000);
-  </script>
 </head>
 <body>
-  <div class="warning-container">
-    <h1>❌ ACCESO BLOQUEADO</h1>
-    <p>Hemos detectado que estás usando una VPN, Proxy o IP de datacenter.</p>
-    <p>Por razones de seguridad, no permitimos el acceso mediante estos servicios.</p>
-    <p>Por favor, desactiva tu VPN y actualiza la página.</p>
-    <a href="/" class="try-again">Intentar de nuevo</a>
+  <div class="block-message">
+    <h1>❌ VPN Detectada</h1>
+    <p>Hemos detectado que estás usando una VPN o proxy.</p>
+    <p>Por seguridad, el acceso está restringido en estas condiciones.</p>
+    <p>Por favor desactívala y <a href="/">recarga la página</a>.</p>
+    <p><small>Tu IP: {{ request.remote_addr }}</small></p>
   </div>
 </body>
 </html>
