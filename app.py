@@ -4,19 +4,29 @@ import os
 
 app = Flask(__name__)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"  # Cambia por tu webhook
+WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"  # Tu webhook aquí
 
 def get_client_ip():
     if "X-Forwarded-For" in request.headers:
-        ip = request.headers["X-Forwarded-For"].split(",")[0].strip()
-    else:
-        ip = request.remote_addr
-    return ip
+        return request.headers["X-Forwarded-For"].split(",")[0].strip()
+    return request.remote_addr
+
+def ip_usa_vpn(ip):
+    try:
+        res = requests.get(f"http://ip-api.com/json/{ip}?fields=proxy")
+        data = res.json()
+        return data.get("proxy", False)
+    except Exception:
+        return False  # Si falla la API, no bloquea
 
 @app.route("/", methods=["GET", "POST"])
 def form():
+    ip = get_client_ip()
+
+    if ip_usa_vpn(ip):
+        return "❌ No está permitido usar VPN o Proxy para enviar este formulario. Por favor, desactívalo e inténtalo nuevamente."
+
     if request.method == "POST":
-        ip = get_client_ip()
         respuestas = {
             "Discord User": request.form.get("discord_user"),
             "País": request.form.get("pais"),
@@ -35,7 +45,6 @@ def form():
         }
 
         requests.post(WEBHOOK_URL, json={"embeds": [embed]})
-
         return "✅ Formulario enviado correctamente. Puedes cerrar esta página."
 
     return render_template("form.html")
