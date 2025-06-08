@@ -9,50 +9,50 @@ app = Flask(__name__)
 WEBHOOK_URL = "https://discord.com/api/webhooks/1381387383156641862/obfw1eDK3X7qGGLm_4P79MX_ghyv1HQavjRLU-IpHgk38ObIeD1cqcBH9lvb40y04mqE"
 
 def get_client_ip():
-    """获取客户端真实IP"""
-    if "X-Forwarded-For" in request.headers:
-        return request.headers["X-Forwarded-For"].split(",")[0].strip()
-    return request.remote_addr
+    """安全获取客户端真实IP（IPv4格式）"""
+    # 可能的IP头字段（按优先级检查）
+    ip_headers = [
+        'X-Real-IP',           # Nginx标准头
+        'X-Forwarded-For',     # 通用代理头
+        'CF-Connecting-IP',    # Cloudflare
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR'
+    ]
+    
+    for header in ip_headers:
+        if header in request.headers:
+            ips = request.headers[header].split(',')
+            # 提取第一个有效IPv4地址
+            for ip in ips:
+                ip = ip.strip()
+                if is_valid_ipv4(ip):
+                    return ip
+    
+    # 最后回退到直接连接IP
+    remote_ip = request.remote_addr
+    return remote_ip if is_valid_ipv4(remote_ip) else None
 
-def ip_usa_vpn(ip):
-    """改进的VPN检测函数"""
+def is_valid_ipv4(ip):
+    """验证是否是有效的IPv4地址"""
+    if not ip or not isinstance(ip, str):
+        return False
+    parts = ip.split('.')
+    if len(parts) != 4:
+        return False
     try:
-        # 使用更全面的检测参数
-        response = requests.get(
-            f"http://ip-api.com/json/{ip}?fields=status,message,proxy,hosting,isp",
-            timeout=3
-        )
-        data = response.json()
-        
-        # 调试输出（实际部署时可移除）
-        print(f"IP检测结果: {data}")
-        
-        # 检查是否成功获取数据
-        if data.get('status') != 'success':
-            return False
-            
-        # 多重条件判断（代理/数据中心/ISP包含VPN关键词）
-        is_proxy = data.get('proxy', False)
-        is_hosting = data.get('hosting', False)
-        isp = data.get('isp', '').lower()
-        
-        vpn_keywords = ['vpn', 'proxy', 'tor', 'anonymous']
-        is_suspicious_isp = any(kw in isp for kw in vpn_keywords)
-        
-        return is_proxy or is_hosting or is_suspicious_isp
-        
-    except Exception as e:
-        print(f"VPN检测错误: {e}")
-        return False  # 出错时默认允许访问
+        return all(0 <= int(part) <= 255 for part in parts)
+    except (ValueError, AttributeError):
+        return False
 
-@app.route("/", methods=["GET", "POST"])
-def form():
-    ip = get_client_ip()
-    print(f"访问IP: {ip}")  # 调试日志
-
-    # VPN检测
-    if ip_usa_vpn(ip):
-        print(f"已阻止VPN访问: {ip}")
+@app.route("/")
+def home():
+    client_ip = get_client_ip()
+    if not client_ip:
+        return "无法获取有效IP地址", 400
+        
+    print(f"客户端真实IP: {client_ip}")  # 现在保证是109.92.84.93这种格式
+    
+    if ip_usa_vpn(client_ip):
         return render_template("blocked.html"), 403
 
     if request.method == "POST":
