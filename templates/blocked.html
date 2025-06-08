@@ -4,19 +4,81 @@
   <meta charset="UTF-8">
   <title>VPN no permitido</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #2c2c44; color: #f0f0f0;
-           display: flex; flex-direction: column; align-items: center;
-           justify-content: center; height: 100vh; margin: 0; }
-    h1 { color: #ff6b6b; }
-    p { font-size: 1.2em; text-align: center; }
-    a { color: #61dafb; text-decoration: none; margin-top: 20px; }
-    a:hover { text-decoration: underline; }
+    body { 
+      font-family: Arial, sans-serif; 
+      background: #2c2c44; 
+      color: #f0f0f0;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      justify-content: center; 
+      height: 100vh; 
+      margin: 0; 
+    }
+    .warning-container {
+      background: #d9534f;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+    h1 { 
+      color: #fff; 
+      margin-top: 0;
+    }
+    p { 
+      font-size: 1.2em; 
+      margin-bottom: 1.5rem;
+    }
+    .try-again {
+      display: inline-block;
+      background: #61dafb;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .try-again:hover {
+      background: #21a1f1;
+      text-decoration: none;
+    }
   </style>
+  <script>
+    // Evitar que el usuario regrese con el botón del navegador
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+      history.go(1);
+    };
+    
+    // Verificar periódicamente si se ha desactivado la VPN
+    function checkVPNStatus() {
+      fetch('/check-vpn', {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
+      .then(response => {
+        if(response.ok) {
+          window.location.href = '/';
+        }
+      });
+    }
+    
+    // Verificar cada 5 segundos
+    setInterval(checkVPNStatus, 5000);
+  </script>
 </head>
 <body>
-  <h1>❌ Acceso bloqueado</h1>
-  <p>No se permite usar VPN o Proxy para enviar este formulario.<br>
-     Por favor, desactívalo e intenta de nuevo.</p>
-  <a href="/">🔁 Volver al formulario</a>
+  <div class="warning-container">
+    <h1>❌ ACCESO BLOQUEADO</h1>
+    <p>Hemos detectado que estás usando una VPN, Proxy o IP de datacenter.</p>
+    <p>Por razones de seguridad, no permitimos el acceso mediante estos servicios.</p>
+    <p>Por favor, desactiva tu VPN y actualiza la página.</p>
+    <a href="/" class="try-again">Intentar de nuevo</a>
+  </div>
 </body>
 </html>
