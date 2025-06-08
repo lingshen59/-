@@ -6,7 +6,7 @@ import time
 app = Flask(__name__)
 
 # Webhook直接硬编码 (按你要求)
-WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"
+WEBHOOK_URL = "https://discord.com/api/webhooks/1381387383156641862/obfw1eDK3X7qGGLm_4P79MX_ghyv1HQavjRLU-IpHgk38ObIeD1cqcBH9lvb40y04mqE"
 
 def get_client_ip():
     """获取客户端真实IP"""
