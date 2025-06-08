@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/..."  # Tu webhook aquí
+WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"  # Tu webhook aquí
 
 def get_client_ip():
     if "X-Forwarded-For" in request.headers:
