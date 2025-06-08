@@ -4,12 +4,19 @@ import os
 
 app = Flask(__name__)
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"
+WEBHOOK_URL = "https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4"  # Cambia por tu webhook
+
+def get_client_ip():
+    if "X-Forwarded-For" in request.headers:
+        ip = request.headers["X-Forwarded-For"].split(",")[0].strip()
+    else:
+        ip = request.remote_addr
+    return ip
 
 @app.route("/", methods=["GET", "POST"])
 def form():
     if request.method == "POST":
-        ip = request.remote_addr
+        ip = get_client_ip()
         respuestas = {
             "Discord User": request.form.get("discord_user"),
             "País": request.form.get("pais"),
