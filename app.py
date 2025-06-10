@@ -2,11 +2,14 @@ from flask import Flask, render_template, request
 import requests
 import time
 import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
+load_dotenv()
+
 # Discord Webhook (替换为你自己的URL)
-WEBHOOK_URL = "https://discord.com/api/webhooks/1381387383156641862/obfw1eDK3X7qGGLm_4P79MX_ghyv1HQavjRLU-IpHgk38ObIeD1cqcBH9lvb40y04mqE"
+WEBHOOK_URL = os.getenv("webhook_url")
 
 def get_client_ip():
     """安全获取客户端真实IPv4地址"""
