@@ -1,94 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang=es>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario</title>
-  <style>
-    body {
-      background: #1e1e2f;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    h1 {
-      color: #61dafb;
-      text-align: center;
-    }
-    form {
-      background: #2c2c44;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      background: #444;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-    }
-    button {
-      background: #61dafb;
-      color: #000;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 20px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Formulario</title>
+<style>body{background:#1e1e2f;color:#fff;font-family:Arial,sans-serif;padding:20px;max-width:600px;margin:0 auto}h1{color:#61dafb;text-align:center}form{background:#2c2c44;padding:20px;border-radius:8px}label{display:block;margin-top:15px;font-weight:700}input,select,textarea{width:100%;padding:8px;margin-top:5px;background:#444;color:#fff;border:none;border-radius:4px}button{background:#61dafb;color:#000;border:none;padding:10px 20px;margin-top:20px;border-radius:4px;cursor:pointer;font-weight:700}</style>
 </head>
 <body>
-  <h1>Formulario de Registro</h1>
-  <form method="POST">
-    <label for="discord_user">Usuario de Discord:</label>
-    <input type="text" id="discord_user" name="discord_user" required>
-
-    <label for="pais">País:</label>
-    <input type="text" id="pais" name="pais" required>
-
-    <label for="skills">¿Qué sabes hacer?</label>
-    <textarea id="skills" name="skills" required></textarea>
-
-    <label for="horas">Horas disponibles:</label>
-    <input type="text" id="horas" name="horas" required>
-
-    <label for="dias">Días disponibles:</label>
-    <input type="text" id="dias" name="dias" required>
-
-    <label for="edad">Edad (opcional):</label>
-    <input type="number" id="edad" name="edad">
-
-    <label for="hacks">¿Tienes hacks? (opcional):</label>
-    <input type="text" id="hacks" name="hacks">
-
-    <label for="aportar">¿Cómo aportarás?</label>
-    <textarea id="aportar" name="aportar" required></textarea>
-
-    <button type="submit">Enviar</button>
-  </form>
-
-  <script>
-    // 每5秒检查VPN状态
-    setInterval(() => {
-      fetch('/check-vpn')
-        .then(r => r.json())
-        .then(data => {
-          if(data.vpn) {
-            window.location.reload();
-          }
-        });
-    }, 5000);
-  </script>
+<h1>Formulario de Registro</h1>
+<form method=POST>
+<label for=discord_user>Usuario de Discord:</label>
+<input id=discord_user name=discord_user required>
+<label for=pais>País:</label>
+<input id=pais name=pais required>
+<label for=skills>¿Qué sabes hacer?</label>
+<textarea id=skills name=skills required></textarea>
+<label for=horas>Horas disponibles:</label>
+<input id=horas name=horas required>
+<label for=dias>Días disponibles:</label>
+<input id=dias name=dias required>
+<label for=edad>Edad (opcional):</label>
+<input type=number id=edad name=edad>
+<label for=hacks>¿Tienes hacks? (opcional):</label>
+<input id=hacks name=hacks>
+<label for=aportar>¿Cómo aportarás?</label>
+<textarea id=aportar name=aportar required></textarea>
+<button type=submit>Enviar</button>
+</form>
+<script>setInterval((()=>{fetch("/check-vpn").then((e=>e.json())).then((e=>{e.vpn&&window.location.reload()}))}),5e3)</script>
 </body>
 </html>
