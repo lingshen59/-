@@ -1,43 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang=es>
 <head>
-  <meta charset="UTF-8">
-  <title>Acceso Bloqueado</title>
-  <style>
-    body {
-      background: #2c2c44;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-    .block-message {
-      background: #d9534f;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 500px;
-    }
-    h1 {
-      margin-top: 0;
-    }
-    a {
-      color: #61dafb;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+<meta charset=UTF-8>
+<title>Acceso Bloqueado</title>
+<style>body{background:#2c2c44;color:#fff;font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;text-align:center}.block-message{background:#d9534f;padding:30px;border-radius:10px;max-width:500px}h1{margin-top:0}a{color:#61dafb;text-decoration:none;font-weight:700}</style>
 </head>
 <body>
-  <div class="block-message">
-    <h1>❌ VPN Detectada</h1>
-    <p>Hemos detectado que estás usando una VPN o proxy.</p>
-    <p>Por seguridad, el acceso está restringido en estas condiciones.</p>
-    <p>Por favor desactívala y <a href="/">recarga la página</a>.</p>
-    <p><small>Tu IP: {{ request.remote_addr }}</small></p>
-  </div>
+<div class=block-message>
+<h1>❌ VPN Detectada</h1>
+<p>Hemos detectado que estás usando una VPN o proxy.</p>
+<p>Por seguridad, el acceso está restringido en estas condiciones.</p>
+<p>Por favor desactívala y <a href=/ >recarga la página</a>.</p>
+<p><small>Tu IP: {{ request.remote_addr }}</small></p>
+</div>
 </body>
 </html>
